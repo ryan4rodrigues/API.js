@@ -1,0 +1,11 @@
+GET http://localhost:3000/cursos
+
+###
+
+POST http://localhost:3000/cursos/add/Rest.js
+
+
+
+
+
+
