@@ -1,6 +1,11 @@
+
+const Cursos = require('./database/db.js');
 const express = require('express');
 const server = express()
-const cursos = ['Fullstack Master', 'NodeJS', 'Javascript', 'Desevolvimento WEB']
+const bodyParser = require('body-parser')
+
+server.use(bodyParser.json())
+server.use(express.json());
 
 server.listen(3000, () => {
     console.log("ta funfando")
@@ -9,43 +14,67 @@ server.listen(3000, () => {
 
 // Lista todos os cursos
 server.get('/cursos', (req, res) => {
-    res.json(cursos)
-})
+    Cursos.findAll().then((lista) => { res.json(lista); }).catch(() => {
+ 
+         return res.json({ mensagem : "erro ao listar cursos!"})
+     })
+
+    })
 
 // Mostra um curso específico
-server.get('/cursos/:index', (req, res) => {
-    const { index } = req.params;
-    return res.json(cursos[index])
-})
+server.get('/cursos/:id', (req, res) => {
+    const { id } = req.params
+    Cursos.findAll({
+        where: {id: id}
+
+    }).then((lista) => { res.json(lista); }).catch(() => {
+ 
+        return res.json({ mensagem : "erro ao listar o curso!"})
+    })
+
+   })
 
 // Adiciona um curso
-server.post('/cursos/add/:name', (req, res) => {
-    const { name } = req.params;
-    cursos.push(name)
+server.post('/cursos/add', (req, res) => {
+    Cursos.create(req.body).then(() => {
+        return res.json({ mensagem : "Curso adicionado!"})
 
-    return res.json({ mensagem : "Curso adicionado!"})
+    }).catch(() => {
+
+        return res.json({ mensagem : "Curso não adicionado!"})
+    });    
 })
 
 // Atualiza um curso
-server.put('/cursos/att/:index/:name', (req, res) => {
-    const { index } = req.params;
-    const { name } = req.params;
+server.put('/cursos/att', (req, res) => {
+    const { id, name, description, duration } = req.body;
+    
+    Cursos.update({
+        name: name,
+        description: description,
+        duration: duration
+    }, {
 
-    cursos[index] = name
+        where: {id: id}
 
-    return res.json({ mensagem : "Curso atualizado!"})
+    }).then(() => {
+        return res.json({ mensagem : "Curso atualizado!"})
+
+    }).catch(() => {
+
+        return res.json({ mensagem : "Curso não atualizado!"})
+    });    
 })
+// Deleta um curso do banco
 
-// Deleta um curso da lista
+server.delete('/cursos/del/:id', (req, res) => {
+    const { id } = req.params;
 
-server.delete('/cursos/del/:index', (req, res) => {
-    const { index } = req.params;
-
-    cursos.splice(index, 1)
-
-    return res.json({ mensagem : "Curso deletado!"})
-})
-
-
-
-
+    Cursos.destroy({
+        where: {
+          id: id
+        }
+      }).then(() => {
+        return res.json({ mensagem : "Curso deletado!"})
+      })
+    })
