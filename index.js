@@ -7,10 +7,6 @@ const bodyParser = require('body-parser')
 server.use(bodyParser.json())
 server.use(express.json());
 
-server.listen(3000, () => {
-    console.log("ta funfando")
-})
-
 
 // Lista todos os cursos
 server.get('/cursos', (req, res) => {
