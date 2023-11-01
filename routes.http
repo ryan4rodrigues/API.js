@@ -1,0 +1,25 @@
+
+
+POST http://localhost:3000/alunos/add
+
+Content-Type: application/json
+
+{
+    "name": "Ryan",
+    "cpf": "06593397148",
+    "dateOfbirth": "11/05/2003",
+
+}
+
+###
+
+PUT http://localhost:3000/cursos/att/2
+Content-Type: application/json
+
+{
+    "name": "Node.js",
+    "description": "gfdgdshf",
+    "duration": 180
+
+}
+

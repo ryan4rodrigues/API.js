@@ -1,19 +1,10 @@
 
-const Cursos = require('./database/db.js');
+const Cursos = require('../database/models/table-cursos')
 const express = require('express');
-const server = express()
-const bodyParser = require('body-parser')
-
-server.use(bodyParser.json())
-server.use(express.json());
-
-server.listen(3000, () => {
-    console.log("ta funfando")
-})
-
+const router = express.Router()
 
 // Lista todos os cursos
-server.get('/cursos', (req, res) => {
+router.get('/', (req, res) => {
     Cursos.findAll().then((lista) => { res.json(lista); }).catch(() => {
  
          return res.json({ mensagem : "erro ao listar cursos!"})
@@ -22,7 +13,7 @@ server.get('/cursos', (req, res) => {
     })
 
 // Mostra um curso específico
-server.get('/cursos/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const { id } = req.params
     Cursos.findAll({
         where: {id: id}
@@ -35,7 +26,7 @@ server.get('/cursos/:id', (req, res) => {
    })
 
 // Adiciona um curso
-server.post('/cursos/add', (req, res) => {
+router.post('/add', (req, res) => {
     Cursos.create(req.body).then(() => {
         return res.json({ mensagem : "Curso adicionado!"})
 
@@ -46,7 +37,7 @@ server.post('/cursos/add', (req, res) => {
 })
 
 // Atualiza um curso
-server.put('/cursos/att', (req, res) => {
+router.put('/att', (req, res) => {
     const { id, name, description, duration } = req.body;
     
     Cursos.update({
@@ -67,7 +58,7 @@ server.put('/cursos/att', (req, res) => {
 })
 // Deleta um curso do banco
 
-server.delete('/cursos/del/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
     const { id } = req.params;
 
     Cursos.destroy({
@@ -78,3 +69,5 @@ server.delete('/cursos/del/:id', (req, res) => {
         return res.json({ mensagem : "Curso deletado!"})
       })
     })
+
+module.exports = router
