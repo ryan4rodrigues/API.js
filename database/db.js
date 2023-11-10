@@ -5,7 +5,6 @@ const sequelize = new Sequelize('cursos', 'root', '1234', {
   dialect: 'mysql'
 });
 
-module.exports = sequelize;
 
 sequelize.authenticate().then(() => {
 
