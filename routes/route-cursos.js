@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router()
 
 // Lista todos os cursos
-router.get('/', (req, res) => {
+router.get('/cursos', (req, res) => {
     Cursos.findAll().then((lista) => { res.json(lista); }).catch(() => {
  
          return res.json({ mensagem : "erro ao listar cursos!"})
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     })
 
 // Mostra um curso específico
-router.get('/:id', (req, res) => {
+router.get('/cursos/:id', (req, res) => {
     const { id } = req.params
     Cursos.findAll({
         where: {id: id}
@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
    })
 
 // Adiciona um curso
-router.post('/add', (req, res) => {
+router.post('/cursos/add', (req, res) => {
     Cursos.create(req.body).then(() => {
         return res.json({ mensagem : "Curso adicionado!"})
 
@@ -37,7 +37,7 @@ router.post('/add', (req, res) => {
 })
 
 // Atualiza um curso
-router.put('/att', (req, res) => {
+router.put('/cursos/att', (req, res) => {
     const { id, name, description, duration } = req.body;
     
     Cursos.update({
@@ -58,7 +58,7 @@ router.put('/att', (req, res) => {
 })
 // Deleta um curso do banco
 
-router.delete('/del/:id', (req, res) => {
+router.delete('/cursos/del/:id', (req, res) => {
     const { id } = req.params;
 
     Cursos.destroy({

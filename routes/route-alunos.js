@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
     Alunos.findAll().then((lista) => { res.json(lista); }).catch(() => {
  
-         return res.json({ mensagem : "erro ao listar cursos!"})
+         return res.json({ mensagem : "erro ao listar alunos!"})
      })
 
     })

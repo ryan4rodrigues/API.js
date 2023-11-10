@@ -9,9 +9,4 @@ server.use('/', routeCursos)
 server.use(bodyParser.json())
 server.use(express.json())
 
-
-server.listen(3000, () => {
-    console.log("ta funfando")
-})
-
 module.exports = server
